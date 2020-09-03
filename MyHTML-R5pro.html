@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html style="height:100%">
+<!--网页整体高度设置（需要和body的height属性值一致）-->
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>静态页面</title>
+    <script src="jquery-3.3.1/jquery-3.3.1.js"></script>
+    <script src="jquery-3.3.1/jquery-3.3.1.min.js"></script>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: Microsoft YaHei;
+            padding: 10px;
+        }
+        /* 鼠标悬浮样式 */
+        
+        li:hover {
+            background-color: #ddd;
+            /* 鼠标悬浮时的背景色 */
+            color: black;
+            /* 鼠标悬浮区的字体颜色 */
+            cursor: pointer;
+        }
+        /* 按钮样式 */
+        
+        input[type=button],
+        input[type=submit],
+        input[type=reset] {
+            background-color: #4caf50;
+            border: none;
+            color: white;
+            padding: 10px 10px;
+            text-decoration: none;
+            margin: 4px 10px;
+            cursor: pointer;
+            border-radius: 10px;
+        }
+        /* 头部标题 */
+        
+        .header {
+            text-align: center;
+            margin-top: 5px;
+            height: 40px;
+            width: 100%;
+        }
+        /* 按键区 */
+        
+        .header2 {
+            width: 100%;
+            height: 80px;
+            float: left;
+        }
+        
+        #head_img {
+            /* 修改最上端插入图片的样式（宽与高） */
+            height: 40px;
+            width: 100%;
+        }
+        /* 导航区 */
+        
+        .topnav {
+            /* 导航栏背景区格式 */
+            overflow: hidden;
+            height: 64px;
+            margin: 0;
+            padding-left: 20px;
+        }
+        
+        .topnav li {
+            /* 导航条选项 */
+            float: left;
+            display: table-row;
+            color: black;
+            width: 118px;
+            height: 64px;
+            text-align: center;
+            padding: 21px 16px;
+            text-decoration: none;
+            font-size: 14px;
+            font-family: Microsoft YaHei;
+            vertical-align: middle;
+        }
+        
+        .selected_top {
+            /* 选中颜色修改（导航区） */
+            background-color: lightblue;
+            color: blue;
+            cursor: pointer;
+        }
+        /* 标签域 */
+        
+        .content_sign {
+            /* 标签域背景区格式 */
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            height: auto;
+        }
+        
+        .sign ul {
+            /* 标签栏样式 */
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            border: 1px none lightsteelblue;
+            padding-left: 35px;
+        }
+        
+        .sign li {
+            /* 标签选项格式 */
+            list-style-type: none;
+            float: left;
+            display: block;
+            color: black;
+            text-align: center;
+            padding: 7px 16px;
+            margin: 5px;
+            font-size: 13px;
+        }
+        
+        .selected_sign {
+            /* 选中颜色修改（标签区） */
+            background-color: lightblue;
+            color: black;
+            cursor: pointer;
+        }
+        
+        .unselected {
+            /* 设置不可选中 */
+            user-select: none;
+            pointer-events: none;
+            cursor: default;
+        }
+        
+        .button_sign ul {
+            /* 隐藏伸展按钮栏格式 */
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            text-align: center;
+            text-decoration: none;
+        }
+        
+        .button_sign li {
+            /* 隐藏伸展按钮的显示样式 */
+            display: inline-block;
+            color: #666;
+            border: 1px none lightsteelblue;
+            padding: 5px 10px;
+        }
+        
+        .button_sign li:hover {
+            /* 隐藏伸展按钮处鼠标悬浮效果 */
+            background-color: lightblue;
+            color: black;
+            padding-bottom: 5px;
+            cursor: pointer;
+        }
+        
+        .triangle {
+            /* 隐藏伸展按钮形状 */
+            display: block;
+            width: 0px;
+            height: 0px;
+            border: 8px solid transparent;
+            border-bottom-color: #666;
+        }
+        /* 表单域 */
+        
+        .content_format {
+            /* 表单域背景区格式 */
+            margin: 0 65px;
+            margin-top: 38px;
+            text-align: center;
+            height: 55%;
+        }
+        
+        #myInput {
+            /* 搜索框格式 */
+            border: 2px solid #7BA7AB;
+            border-radius: 5px;
+            background: #F9F0DA;
+            color: #9E9C9C;
+            margin: 10px auto;
+        }
+        
+        .content_format table {
+            /* 表单格式 */
+            border-style: solid none;
+            border-color: #666;
+            border-width: 1px;
+            border-collapse: collapse;
+            background-color: white;
+            width: 1000px;
+            /* 表单宽度设置 */
+            cursor: default;
+        }
+        
+        table thead {
+            /* 表单标题格式 */
+            display: table;
+            background-color: #ccc;
+            border-top-style: none;
+            width: calc(100% - 1em);
+        }
+        
+        tr {
+            border-style: solid none;
+            border-color: #666;
+            border-width: 1px;
+        }
+        
+        th {
+            border: solid 1px #666;
+            text-align: center;
+            cursor: pointer;
+        }
+        
+        table tbody {
+            /* 表单数据区格式 */
+            display: block;
+            overflow-x: hidden;
+            overflow-y: auto;
+            height: 75px;
+            /* 数据显示行数设置 */
+            border-width: 1px;
+        }
+        
+        tbody tr {
+            display: table;
+            table-layout: fixed;
+            width: 100%;
+        }
+        
+        td {
+            border-width: 1px;
+            border-style: solid none;
+            border-color: #666;
+            width: 120px;
+        }
+        
+        .hover {
+            /* 表单数据悬浮时格式 */
+            background-color: #ddd;
+            font-style: normal;
+            font-weight: bold;
+        }
+        /* 底部 */
+        
+        .footer {
+            /* 页脚区格式 */
+            padding: 10px;
+            text-align: center;
+            border-top-style: solid;
+            border-top-width: 2px;
+            border-top-color: black;
+            width: 97.3%;
+            position: absolute;
+            bottom: 0;
+        }
+        /* 响应式布局 -屏幕尺寸小于 400px 时，导航等布局改为上下布局 */
+        
+        @media screen and (max-width: 400px) {
+            .topnav a {
+                float: none;
+                width: 100%;
+            }
+        }
+    </style>
+    <script>
+        function mySearch() { //搜索（筛选）函数
+            var input, filter, table, tr, td, i, index; //定义变量
+            input = document.getElementById("myInput");
+            filter = input.value.toUpperCase();
+            table = document.getElementById("tab1");
+            tr = table.getElementsByTagName("tr");
+            var select = document.getElementById("sel");
+            index = select.value; //获取下拉菜单值，选择筛选列
+            // 循环表格每一行，查找匹配项
+            for (i = 1; i < tr.length; i++) {
+                td = tr[i].getElementsByTagName("td")[index];
+                if (td) {
+                    if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+                        tr[i].style.display = "";
+                    } else {
+                        tr[i].style.display = "none";
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+
+<body style="height:100%;overflow:hidden;">
+    <!--网页整体高度设置（需要和html的height属性值一致）-->
+    <iframe src="樱花飞舞.html" frameborder="0" width="100%" height="100%" style="z-index: -1;width: 100%;position: fixed;"></iframe>
+    <div class="header">
+        <!--网页最上端区域的格式-->
+        <img id="head_img" src="JPG/1.jpg" />
+        <!--网页最上端插入图片，src放入图片的相对地址，若置于同一目录下则只需输入图片名称-->
+    </div>
+    <div class="header2">
+        <span>
+            <img src="PNG/书籍.png" style="width:50px;height:50px;vertical-align: middle;margin: 15px 20px;" /></span>
+        <span style="font-size: 25px;font-weight: 700;vertical-align: middle;position: relative;">我的网页
+        </span>
+        <span>
+            <img src="JPG/1.jpg" style="height: 50px;width: 100px;margin-left: -20px;vertical-align: middle;z-index: -1;" /></span>
+        <span style="float: right;margin: 15px 20px;">
+                <a href="http://htmlpreview.github.io/?https://github.com/piano2013/Firework/blob/master/Myanswer.html"><input
+                        type="button" value="点我^_^" /></a>
+        </span>
+    </div>
+    <div class="topnav" style="border-bottom: 1px solid gray;vertical-align: middle;">
+
+        <!--将下方的“书籍.png”替换为需要放置的图片的文件名（注意图片需在同一目录下，若无需调节图片大小，删掉style中的height与width即可）-->
+        <li class="selected_top"><img src="PNG/书籍.png" style="vertical-align: middle;height: 30px;width: 30px;" />上传文件</li>
+        <li><img src="PNG/书籍.png" style="vertical-align: middle;height: 30px;width: 30px;" />下载文件</li>
+        <li><img src="PNG/书籍.png" style="vertical-align: middle;height: 30px;width: 30px;" />我的设置</li>
+    </div>
+    <div class="content" style="margin-bottom: 10px;height: 60%;">
+        <div class="content_sign">
+            <div class="sign">
+                <ul>
+                    <li class="unselected">创建时间</li>
+                    <li>全部文件</li>
+                    <li class="selected_sign">全部文件</li>
+                    <li>全部文件</li>
+                    <li>全部文件</li>
+                </ul>
+                <div class="sign_show">
+                    <ul>
+                        <li class="unselected">创建时间</li>
+                        <li>全部文件</li>
+                        <li>全部文件</li>
+                        <li>全部文件</li>
+                        <li>全部文件</li>
+                    </ul>
+                    <ul>
+                        <li class="unselected">创建时间</li>
+                        <li>全部文件</li>
+                        <li>全部文件</li>
+                        <li>全部文件</li>
+                        <li>全部文件</li>
+                    </ul>
+                    <ul>
+                        <li class="unselected">创建时间</li>
+                        <li>全部文件</li>
+                        <li>全部文件</li>
+                        <li>全部文件</li>
+                        <li>全部文件</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="sign" style="display:none">
+                <ul>
+                    <li class="unselected">创建时间</li>
+                    <li>全部文件</li>
+                    <li>全部文件</li>
+                    <li>全部文件</li>
+                    <li>全部文件</li>
+                </ul>
+                <div class="sign_show">
+                    <ul>
+                        <li class="unselected">创建时间</li>
+                        <li>全部文件</li>
+                        <li>全部文件</li>
+                        <li>全部文件</li>
+                        <li>全部文件</li>
+                    </ul>
+                    <ul>
+                        <li class="unselected">创建时间</li>
+                        <li>全部文件</li>
+                        <li>全部文件</li>
+                        <li>全部文件</li>
+                        <li>全部文件</li>
+                    </ul>
+                    <ul>
+                        <li class="unselected">创建时间</li>
+                        <li>全部文件</li>
+                        <li>全部文件</li>
+                        <li>全部文件</li>
+                        <li>全部文件</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="sign" style="display:none">
+                <ul>
+                    <li class="unselected">创建时间</li>
+                    <li>全部文件</li>
+                    <li>全部文件</li>
+                    <li>全部文件</li>
+                    <li>全部文件</li>
+                </ul>
+                <div class="sign_show">
+                    <ul>
+                        <li class="unselected">创建时间</li>
+                        <li>全部文件</li>
+                        <li>全部文件</li>
+                        <li>全部文件</li>
+                        <li>全部文件</li>
+                    </ul>
+                    <ul>
+                        <li class="unselected">创建时间</li>
+                        <li>全部文件</li>
+                        <li>全部文件</li>
+                        <li>全部文件</li>
+                        <li>全部文件</li>
+                    </ul>
+                    <ul>
+                        <li class="unselected">创建时间</li>
+                        <li>全部文件</li>
+                        <li>全部文件</li>
+                        <li>全部文件</li>
+                        <li>全部文件</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="button_sign">
+            <ul>
+                <li><a href="javascript:divShow();" class="button_sign"><b id="button_triangle"
+                            class="triangle"></b></a></li>
+            </ul>
+        </div>
+        <div class="content_format">
+            <div style="text-align: right;">
+                <input type="text" id="myInput" onkeyup="mySearch()" placeholder="搜索..."> 分类：
+                <select id="sel" style="margin-right: 34px;">
+                    <option value="0">价格</option>
+                    <option value="1" selected="selected">书名</option>
+                    <option value="2">价格</option>
+                    <option value="3">出版时间</option>
+                    <option value="4">印刷量</option>
+                    <option value="5">IP1</option>
+                    <option value="6">IP2</option>
+                    <option value="7">IP3</option>
+                </select>
+            </div>
+            <div style="text-align: center;">
+                <table id="tab1" style="margin: auto;">
+                    <thead>
+                        <tr>
+                            <th type="Rank" style="width: 120px;">编号</th>
+                            <th type="string" style="width: 120px;">书名</th>
+                            <th type="number" style="width: 120px;">价格（元）</th>
+                            <th type="string" style="width: 120px;">出版时间</th>
+                            <th type="number" style="width: 120px;">印刷量（册）</th>
+                            <th type="ip1" style="width: 120px;">IP1</th>
+                            <th type="ip2" style="width: 120px;">IP2</th>
+                            <th type="ip3" style="width: 120px;border-right-style: none;">IP3</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="hover">
+                            <td>1</td>
+                            <td>哈哈哈</td>
+                            <td>29.80</td>
+                            <td>2009-10</td>
+                            <td>50000</td>
+                            <td>192.168</td>
+                            <td>192.1</td>
+                            <td>192.1</td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>嗯嗯嗯</td>
+                            <td>29.80</td>
+                            <td>2009-09</td>
+                            <td>800</td>
+                            <td>192.1</td>
+                            <td>168.1</td>
+                            <td>168.1</td>
+                        </tr>
+                        <tr>
+                            <td>3</td>
+                            <td>嘻嘻嘻</td>
+                            <td>28.00</td>
+                            <td>2008-10</td>
+                            <td>2100</td>
+                            <td>0.12</td>
+                            <td>1.125</td>
+                            <td>168.1</td>
+                        </tr>
+                        <tr>
+                            <td>4</td>
+                            <td>嘿嘿嘿</td>
+                            <td>24.80</td>
+                            <td>2008-10</td>
+                            <td>279</td>
+                            <td>215.10</td>
+                            <td>192.125</td>
+                            <td>168.1</td>
+                        </tr>
+                        <tr>
+                            <td>5</td>
+                            <td>嚯嚯嚯</td>
+                            <td>69.00</td>
+                            <td>2011-12</td>
+                            <td>145</td>
+                            <td>192.5</td>
+                            <td>1.125</td>
+                            <td>192.1</td>
+                        </tr>
+                        <tr>
+                            <td>6</td>
+                            <td>对对对</td>
+                            <td>99.00</td>
+                            <td>2012-04</td>
+                            <td>5000</td>
+                            <td>358.1</td>
+                            <td>1.125</td>
+                            <td>192.1</td>
+                        </tr>
+                        <tr>
+                            <td>7</td>
+                            <td>是是是</td>
+                            <td>79.80</td>
+                            <td>2012-01</td>
+                            <td>2000</td>
+                            <td>1.25</td>
+                            <td>168.1</td>
+                            <td>192.1</td>
+                        </tr>
+                        <tr>
+                            <td>8</td>
+                            <td>啊啊啊</td>
+                            <td>69.80</td>
+                            <td>2011-11</td>
+                            <td>2500</td>
+                            <td>215.54</td>
+                            <td>1.125</td>
+                            <td>19.1</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="footer">
+        <form name="button">
+            <a href="http://htmlpreview.github.io/?https://github.com/piano2013/Firework/blob/master/Hello.html"><input type="button" value="还有我^_^" /></a>
+        </form>
+    </div>
+    <script type="text/javascript">
+        $(function() {
+            $(".topnav li").click(function() {
+                var divShow = $(".content_sign").children('.sign');
+                if (!$(this).hasClass('selected_top')) {
+                    var index = $(this).index();
+                    $(this).addClass('selected_top').siblings('li').removeClass('selected_top');
+                    $(divShow[index]).show();
+                    $(divShow[index]).siblings('.sign').hide();
+                }
+            })
+        })
+    </script>
+    <script type="text/javascript">
+        $(function() {
+            $(".sign li").click(function() {
+                var divShow = $(".sign").children('.ul');
+                if (!$(this).hasClass('selected_sign')) {
+                    var index = $(this).index();
+                    $(this).addClass('selected_sign');
+                } else {
+                    $(this).removeClass('selected_sign');
+                }
+            })
+        })
+    </script>
+    <script type="text/javascript">
+        $(function() {
+            $(".button_sign li").click(function() {
+                $(".sign").children('.sign_show').slideToggle();
+                const target = document.querySelector("#button_triangle");
+                if (target.style.webkitTransform == "rotateX(180deg)") {
+                    target.style.webkitTransform = "";
+                } else {
+                    target.style.webkitTransform = "rotateX(180deg)";
+                }
+            });
+        });
+    </script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            var tableObject = $('#tab1'); //获取id为tab1的table对象
+            var tbHead = tableObject.children('thead'); //获取table对象下的thead
+            var tbHeadTh = tbHead.find('tr th'); //获取thead下的tr下的th
+            var tbBody = tableObject.children('tbody'); //获取table对象下的tbody
+            var tbBodyTr = tbBody.find('tr'); //获取tbody下的tr
+            var sortIndex = -1; //初始化索引
+            tbHeadTh.each(function() { //遍历thead的tr下的th
+                var thisIndex = tbHeadTh.index($(this)); //获取th所在的列号
+                //鼠标移除和聚焦的效果
+                $(this).mouseover(function() { //鼠标移开事件
+                    tbBodyTr.each(function() { //编列tbody下的tr
+                        var tds = $(this).find("td"); //获取列号为参数index的td对象集合
+                        $(tds[thisIndex]).addClass("hover");
+                    });
+                }).mouseout(function() { //鼠标聚焦时间
+                    tbBodyTr.each(function() {
+                        var tds = $(this).find("td");
+                        $(tds[thisIndex]).removeClass("hover");
+                    });
+                });
+
+                $(this).click(function() { //鼠标点击事件
+                    var dataType = $(this).attr("type"); //获取当前点击列的 type
+                    checkColumnValue(thisIndex, dataType); //对当前点击的列进行排序 （当前索引，排序类型）
+                });
+            });
+            //显示效果
+            $("tbody tr").removeClass(); //先移除tbody下tr的所有css类
+            $("tbody tr").mouseover(function() {
+                $(this).addClass("hover");
+            }).mouseout(function() {
+                $(this).removeClass("hover");
+            });
+
+            //对表格排序
+            function checkColumnValue(index, type) {
+                var trsValue = new Array(); //创建一个新的列表
+                tbBodyTr.each(function() { //遍历所有的tr标签
+                    var tds = $(this).find('td'); //查找所有的 td 标签
+                    //将当前的点击列 push 到一个新的列表中
+                    //包括当前行的类型、当前索引的值，和当前行的值
+                    trsValue.push(type + ".separator" + $(tds[index]).html() + ".separator" + $(this)
+                        .html());
+                    $(this).html(""); //清空当前列
+                });
+                var len = trsValue.length; //获取所有要排序的列的长度
+                if (index == sortIndex) { //sortIndex =-1
+                    trsValue.reverse();
+                } else {
+                    for (var i = 0; i < len; i++) { //遍历所有的行
+                        type = trsValue[i].split(".separator")[0]; // 获取要排序的类型
+                        for (var j = i + 1; j < len; j++) {
+                            value1 = trsValue[i].split(".separator")[1]; //当前值
+                            value2 = trsValue[j].split(".separator")[1]; //当前值的下一个
+                            if (type == "number") {
+                                //js 三元运算  如果 values1 等于 '' （空） 那么，该值就为0，否则 改值为当前值
+                                value1 = value1 == "" ? 0 : value1;
+                                value2 = value2 == "" ? 0 : value2;
+                                //parseFloat() 函数可解析一个字符串，并返回一个浮点数。
+                                //该函数指定字符串中的首个字符是否是数字。如果是，则对字符串进行解析，直到到达数字的末端为止，然后以数字返回该数字，而不是作为字符串。
+                                //如果字符串的第一个字符不能被转换为数字，那么 parseFloat() 会返回 NaN。
+                                if (parseFloat(value1) > parseFloat(value2)) { //如果当前值 大于 下一个值
+                                    var temp = trsValue[j]; //那么就记住 大 的那个值
+                                    trsValue[j] = trsValue[i];
+                                    trsValue[i] = temp;
+                                }
+                            } else if (type == "ip") {
+                                if (ip2int(value1) > ip2int(value2)) {
+                                    var temp = trsValue[j];
+                                    trsValue[j] = trsValue[i];
+                                    trsValue[i] = temp;
+                                }
+                            } else {
+                                //JavaScript localeCompare() 方法 用本地特定的顺序来比较两个字符串。
+                                //说明比较结果的数字。
+                                // 如果 stringObject 小于 target，则 localeCompare() 返回小于 0 的数。
+                                // 如果 stringObject 大于 target，则该方法返回大于 0 的数。
+                                // 如果两个字符串相等，或根据本地排序规则没有区别，该方法返回 0。
+                                if (value1.localeCompare(value2) > 0) { //该方法不兼容谷歌浏览器
+                                    var temp = trsValue[j];
+                                    trsValue[j] = trsValue[i];
+                                    trsValue[i] = temp;
+                                }
+                            }
+                        }
+                    }
+                }
+                for (var i = 0; i < len; i++) {
+                    //将排序完的 值 插入到 表格中
+                    //:eq(index) 匹配一个给定索引值的元素
+                    $("tbody tr:eq(" + i + ")").html(trsValue[i].split(".separator")[2]);
+                }
+                sortIndex = index;
+            }
+            //IP转成整型
+            function ip2int(ip) {
+                var num = 0;
+                ip = ip.split(".");
+                //Number() 函数把对象的值转换为数字。
+                num = Number(ip[0]) * 256 * 256 * 256 + Number(ip[1]) * 256 * 256 + Number(ip[2]) * 256 +
+                    Number(ip[3]);
+                return num;
+            }
+        })
+    </script>
+</body>
+
+</html>
